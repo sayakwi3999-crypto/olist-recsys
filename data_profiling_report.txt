@@ -1,0 +1,87 @@
+﻿tbl	rows_total	distinct_pk
+orders	99441	99441
+customers	99441	99441
+order_items	112650	112650
+payments	103886	103886
+reviews	99224	99224
+products	32951	32951
+sellers	3095	3095
+dup_orders_rows
+0
+dup_unique_ids
+2997
+dup_item_groups
+7088
+dup_review_ids
+789
+dup_pay_rows
+0
+dup_products
+0
+dup_sellers
+0
+null_customer_id	null_purchase_ts	null_status
+0	0	0
+null_product	null_price	null_freight
+0	0	0
+null_score	empty_comment	empty_title
+0	58247	87656
+null_category	null_weight	null_desc
+610	2	610
+null_type	null_value
+0	0
+order_status	cnt
+delivered	96478
+shipped	1107
+canceled	625
+unavailable	609
+invoiced	314
+processing	301
+created	5
+approved	2
+bad_time_orders
+84
+out_of_range
+0
+neg_price
+0
+bad_score
+0
+long_delivery
+4118
+orders_without_items
+775
+orders_without_payment
+1
+orders_without_review
+768
+orphan_items
+0
+users	products	interactions
+95420	32951	112650
+total_users	repeat_buyers	repeat_rate_pct
+96096	2997	3.12
+review_score	cnt
+1	11424
+2	3151
+3	8179
+4	19142
+5	57328
+items_per_order	orders_cnt
+1	88863
+2	7516
+3	1322
+4	505
+5	204
+6	198
+7	22
+8	8
+9	3
+10	8
+11	4
+12	5
+13	1
+14	2
+15	2
+20	2
+21	1

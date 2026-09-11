@@ -1,0 +1,28 @@
+tbl	raw_rows	clean_rows	removed_rows
+orders	99441	99197	244
+customers	99441	95918	3523
+order_items (after merge)	112650	102304	10346
+payments	103886	103620	266
+reviews	99224	98986	238
+products	32951	32951	0
+sellers	3095	3095	0
+tbl	reason	rows_affected
+orders	duplicate order_id (earliest kept)	0
+orders	missing customer_id	0
+orders	impossible timestamp order (approval/shipping/delivery out of sequence)	84
+orders	purchase timestamp outside 2016-09 ~ 2018-10	0
+customers	duplicate customer_unique_id (multiple accounts, latest kept)	2997
+customers	customer rows without a valid order (dropped with the order)	244
+sellers	duplicate seller_id	0
+products	duplicate product_id	0
+products	missing category (kept, flagged as "uncategorised")	610
+order_items	order was dropped (cleaned with the order)	134
+order_items	negative price	0
+order_items	same order/item/seller on multiple rows (merged into quantity)	7088
+order_items	missing product_id	0
+payments	order was dropped (cleaned with the order)	266
+payments	missing payment value or type	0
+reviews	order was dropped (cleaned with the order)	238
+reviews	review score outside the 1-5 range	0
+reviews	review_id reused across orders (kept, flagged as shared review)	789
+reviews	missing review text (kept, needs handling in sentiment analysis)	58247

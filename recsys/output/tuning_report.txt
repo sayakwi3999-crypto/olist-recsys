@@ -1,0 +1,30 @@
+======================================================================
+Hyperparameter tuning report (Scenario B: repeat buyers, optimising ndcg@10)
+======================================================================
+
+[popular] best params: {}
+    precision@10=0.00668  recall@10=0.06298  ndcg@10=0.02822  coverage@10=0.0024
+[random] best params: {}
+    precision@10=0.00016  recall@10=0.00159  ndcg@10=0.00103  coverage@10=0.9178
+[content] best params: {}
+    precision@10=0.00796  recall@10=0.0781  ndcg@10=0.04923  coverage@10=0.5
+[itemcf] best params: {"top_k": 20, "pop_prior": 0.05}
+    precision@10=0.01329  recall@10=0.12861  ndcg@10=0.09856  coverage@10=0.0866
+[usercf] best params: {"pop_prior": 0.05}
+    precision@10=0.01329  recall@10=0.12861  ndcg@10=0.09938  coverage@10=0.0936
+[svd] best params: {"k": 40, "reg": 0.02, "lr": 0.01}
+    precision@10=0.0004  recall@10=0.00398  ndcg@10=0.00293  coverage@10=0.047
+[als] best params: {"k": 40, "reg": 5}
+    precision@10=0.00581  recall@10=0.05728  ndcg@10=0.04199  coverage@10=0.0228
+[hybrid] best params: {"itemcf": 0.55, "content": 0.15, "als": 0.1, "svd": 0.1, "popular": 0.1}
+    precision@10=0.01321  recall@10=0.12782  ndcg@10=0.09602  coverage@10=0.08
+
+Overall best: {"itemcf": 0.55, "content": 0.15, "als": 0.1, "svd": 0.1, "popular": 0.1} (ndcg@10=0.09602)
+Best hybrid on Scenario A (time split): precision@10=0.0032532397408207344 recall@10=0.03176745860331173 ndcg@10=0.014417429410923454
+
+To enable these results, write them into config.py and re-run run_all.py:
+  ITEMCF_TOP_K = 20
+  ItemCF/UserCF popularity prior = 0.05
+  SVD_K=40  SVD_LR=0.01  SVD_REG=0.02
+  ALS_K=40  ALS_REG=5
+  HYBRID_WEIGHTS = {'itemcf': 0.55, 'content': 0.15, 'als': 0.1, 'svd': 0.1, 'popular': 0.1}

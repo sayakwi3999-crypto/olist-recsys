@@ -1,0 +1,55 @@
+======================================================================
+Offline evaluation results (Scenario A: time-based split (last 20% of interactions as test set))
+======================================================================
+         precision@5  recall@5    ndcg@5  precision@10  recall@10   ndcg@10  precision@20  recall@20   ndcg@20  coverage@10  diversity@10  novelty@10
+model                                                                                                                                                
+popular     0.003078  0.014984  0.009802      0.003267   0.031835  0.015318      0.002882   0.056335  0.021463       0.0022      0.844432    0.059215
+random      0.000135  0.000607  0.000390      0.000135   0.001282  0.000612      0.000142   0.002700  0.000981       1.0000      0.948689    0.652412
+itemcf      0.003051  0.014849  0.009749      0.003267   0.031835  0.015311      0.002882   0.056335  0.021452       0.0312      0.844213    0.060261
+usercf      0.003051  0.014849  0.009749      0.003267   0.031835  0.015311      0.002882   0.056335  0.021452       0.0392      0.844132    0.060579
+svd         0.000351  0.001755  0.000824      0.000337   0.003375  0.001341      0.000324   0.006479  0.002112       0.0264      0.958624    0.539494
+als         0.000027  0.000135  0.000085      0.000081   0.000810  0.000298      0.000317   0.006277  0.001580       0.0170      0.909659    0.762799
+content     0.002997  0.014579  0.009495      0.003172   0.030890  0.014822      0.002835   0.055391  0.020959       0.0124      0.845164    0.069590
+hybrid      0.003537  0.017279  0.009505      0.003267   0.031835  0.014132      0.002848   0.055796  0.020155       0.0132      0.844567    0.059739
+
+Segment evaluation (precision@10 / recall@10)
+  model     segment  users  precision@10  recall@10
+popular  cold_users   7304      0.003300   0.032151
+popular top5_states     63      0.001587   0.015873
+popular other_users     20      0.000000   0.000000
+popular  high_value     21      0.000000   0.000000
+ random  cold_users   7304      0.000219   0.002191
+ random top5_states     63      0.000000   0.000000
+ random other_users     20      0.000000   0.000000
+ random  high_value     21      0.000000   0.000000
+ itemcf  cold_users   7304      0.003300   0.032151
+ itemcf top5_states     63      0.001587   0.015873
+ itemcf other_users     20      0.000000   0.000000
+ itemcf  high_value     21      0.000000   0.000000
+ usercf  cold_users   7304      0.003300   0.032151
+ usercf top5_states     63      0.001587   0.015873
+ usercf other_users     20      0.000000   0.000000
+ usercf  high_value     21      0.000000   0.000000
+    svd  cold_users   7304      0.000342   0.003423
+    svd top5_states     63      0.000000   0.000000
+    svd other_users     20      0.000000   0.000000
+    svd  high_value     21      0.000000   0.000000
+    als  cold_users   7304      0.000068   0.000685
+    als top5_states     63      0.001587   0.015873
+    als other_users     20      0.000000   0.000000
+    als  high_value     21      0.000000   0.000000
+content  cold_users   7304      0.003204   0.031193
+content top5_states     63      0.001587   0.015873
+content other_users     20      0.000000   0.000000
+content  high_value     21      0.000000   0.000000
+ hybrid  cold_users   7304      0.003300   0.032151
+ hybrid top5_states     63      0.001587   0.015873
+ hybrid other_users     20      0.000000   0.000000
+ hybrid  high_value     21      0.000000   0.000000
+
+Notes:
+- Candidate pool = the 5,000 most popular items in the training set; items already bought are filtered out.
+- Of the 7,408 users in the test period, 7,304 (98.6%) have no purchase in the training period (cold-start users), a direct consequence of the ~3% repeat-purchase rate.
+- Only training interactions are used as model input; cold-start users fall back to popularity/content features, so no leakage.
+- cold_users = new users in the test period (no training purchase); high_value = top 20% by training spend;
+  top5_states = returning users in SP/RJ/MG/RS/PR; other_users = returning users elsewhere.
