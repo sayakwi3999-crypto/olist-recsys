@@ -1,8 +1,7 @@
 -- ============================================================
--- 02 Cleaning, de-duplication and table creation
--- Output: 8 cleaned tables in the olist_clean database + a cleaning_log table,
---         followed by a before/after comparison report.
--- The source database olist_analysis is never modified, so this script is safe to re-run.
+-- 02 Cleaning, removing duplicates and table creation
+-- Output 8 cleaned tables in the olist_clean database and a cleaning_log table
+-- A report comparing before and after tables
 -- ============================================================
 CREATE DATABASE IF NOT EXISTS olist_clean DEFAULT CHARACTER SET utf8mb4;
 USE olist_clean;
@@ -17,7 +16,7 @@ CREATE TABLE cleaning_log (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ---------- 1. orders ----------
+-- 1. orders 
 SET @dup_orders := 0;
 SET @null_cust := 0;
 SET @bad_time := 0;
@@ -56,9 +55,9 @@ FROM (
 ) o
 WHERE rn = 1;
 ALTER TABLE clean_orders ADD PRIMARY KEY (order_id);
-ALTER TABLE clean_orders ADD INDEX ix_orders_customer (customer_id);
+ALTER TABLE clean_orders ADD INDEX ix_orders_customer (customer_id); --speed up joins and queries
 
--- ---------- 2. customers ----------
+--2. customers 
 SET @dup_uid := 0;
 SET @no_order_cust := 0;
 SELECT COUNT(*) INTO @dup_uid FROM (SELECT customer_unique_id FROM olist_analysis.customers GROUP BY customer_unique_id HAVING COUNT(*) > 1) t;
@@ -83,7 +82,7 @@ JOIN (
 ALTER TABLE clean_customers ADD PRIMARY KEY (customer_id);
 ALTER TABLE clean_customers ADD INDEX ix_customers_uid (customer_unique_id);
 
--- ---------- 3. sellers ----------
+-- 3. sellers 
 SET @dup_seller := 0;
 SELECT COUNT(*) INTO @dup_seller FROM (SELECT seller_id FROM olist_analysis.sellers GROUP BY seller_id HAVING COUNT(*) > 1) t;
 INSERT INTO cleaning_log(tbl, reason, rows_affected) VALUES ('sellers', 'duplicate seller_id', @dup_seller);
@@ -93,7 +92,7 @@ CREATE TABLE clean_sellers AS
 SELECT DISTINCT seller_id, seller_zip_code_prefix, seller_city, seller_state FROM olist_analysis.sellers;
 ALTER TABLE clean_sellers ADD PRIMARY KEY (seller_id);
 
--- ---------- 4. products ----------
+--  4. products 
 SET @dup_prod := 0;
 SET @null_cat := 0;
 SELECT COUNT(*) INTO @dup_prod FROM (SELECT product_id FROM olist_analysis.products GROUP BY product_id HAVING COUNT(*) > 1) t;
@@ -113,7 +112,7 @@ FROM olist_analysis.products;
 ALTER TABLE clean_products ADD PRIMARY KEY (product_id);
 ALTER TABLE clean_products ADD INDEX ix_products_cat (product_category_name);
 
--- ---------- 5. order_items ----------
+-- 5. order_items 
 SET @oi_no_order := 0;
 SET @oi_neg := 0;
 SET @oi_dup_group := 0;
@@ -148,7 +147,7 @@ ALTER TABLE clean_order_items ADD PRIMARY KEY (order_id, product_id, seller_id);
 ALTER TABLE clean_order_items ADD INDEX ix_oi_product (product_id);
 ALTER TABLE clean_order_items ADD INDEX ix_oi_seller (seller_id);
 
--- ---------- 6. payments ----------
+--  6. payments 
 SET @pay_no_order := 0;
 SET @pay_null := 0;
 SELECT COUNT(*) INTO @pay_no_order FROM olist_analysis.payments p
@@ -179,7 +178,7 @@ FROM olist_clean.clean_payments
 GROUP BY order_id;
 ALTER TABLE order_payment_summary ADD PRIMARY KEY (order_id);
 
--- ---------- 7. reviews ----------
+-- 7. reviews 
 SET @rv_no_order := 0;
 SET @rv_bad_score := 0;
 SET @rv_dup := 0;
@@ -206,7 +205,7 @@ WHERE r.order_id IN (SELECT order_id FROM olist_clean.clean_orders)
 ALTER TABLE clean_reviews ADD PRIMARY KEY (review_id, order_id);
 ALTER TABLE clean_reviews ADD INDEX ix_reviews_order (order_id);
 
--- ---------- 8. before/after comparison report ----------
+--8. before/after comparison report 
 SELECT 'orders' AS tbl,
        (SELECT COUNT(*) FROM olist_analysis.orders) AS raw_rows,
        (SELECT COUNT(*) FROM olist_clean.clean_orders) AS clean_rows,
