@@ -38,7 +38,6 @@ An end-to-end recommender-systems project on the public Olist dataset: **MySQL d
 │   ├── run_all.py               # runs both scenarios end to end
 │   └── output/                  # evaluation results (CSV / TXT / PNG, committed)
 ├── PROJECT_REPORT.md            # full write-up: findings, lessons, model comparison, strategy
-├── CODE_WALKTHROUGH.md          # line-by-line walkthrough of the SQL and Python code
 ├── PROJECT_PAPER.md             # paper-style report with figures
 ├── PROJECT_OUTLINE.md           # project plan and framework
 └── RESUME_BULLETS.md            # resume entries for this project
@@ -127,7 +126,6 @@ Segment view (ItemCF, Recall@10): top-five states 0.171 > other returning users 
 ## 8. Documentation
 
 - `PROJECT_REPORT.md` – full report (executive summary, cleaning lesson, model comparison, operational strategy, data reflection).
-- `CODE_WALKTHROUGH.md` – line-by-line walkthrough of the SQL and Python code; useful as interview or defence notes.
 - `PROJECT_PAPER.md` – paper-style report with figures.
 - `recsys/README.md` – module-level documentation.
 
